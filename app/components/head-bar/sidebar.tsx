@@ -6,10 +6,33 @@ import Link from "next/link";
 import KakaoLoginButton from "@/app/components/auth/kakao-login-button";
 import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/solid";
 import { signOut, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { ScheduleType } from "@/db/schema";
 
 export default function Sidebar() {
   const { isOpen, close } = useSidebar((state) => state);
   const { data: session } = useSession();
+
+  const [meets, setMeets] = useState<
+    {
+      meets: {
+        id: string;
+        title: string;
+        startDate: string;
+        endDate: string;
+        absolutelyNot: ScheduleType[];
+        adjustable: ScheduleType[];
+      };
+    }[]
+  >([]);
+
+  useEffect(() => {
+    async function getMeets() {
+      const meetData = await fetch("/api/user/meets").then((res) => res.json());
+      setMeets(meetData);
+    }
+    getMeets();
+  }, []);
 
   return (
     <div
@@ -26,7 +49,7 @@ export default function Sidebar() {
           </Link>
           <div
             className={
-              "p-2 px-3 rounded-lg bg-neutral-200/50 ring-2 ring-neutral-400 flex flex-col gap-2"
+              "p-2 px-3 rounded-lg bg-neutral-200/50 ring-2 ring-neutral-400 flex flex-col gap-2 mt-4"
             }
           >
             <div className={"flex items-center justify-between"}>
@@ -54,34 +77,16 @@ export default function Sidebar() {
           <div className={"flex flex-col pt-14"}>
             <div className={"text-lg font-semibold"}>약속 목록</div>
             <div className={"flex flex-col gap-2"}>
-              <div
-                className={
-                  "w-full p-2 px-3 min-h-20 rounded-xl ring-2 ring-neutral-700 bg-white"
-                }
-              >
-                <div className={"text-lg"}>1차 킥오프 미팅</div>
-              </div>
-              <div
-                className={
-                  "w-full p-2 px-3 min-h-20 rounded-xl ring-2 ring-neutral-700 bg-white"
-                }
-              >
-                <div className={"text-lg"}>1차 킥오프 미팅</div>
-              </div>
-              <div
-                className={
-                  "w-full p-2 px-3 min-h-20 rounded-xl ring-2 ring-neutral-700 bg-white"
-                }
-              >
-                <div className={"text-lg"}>1차 킥오프 미팅</div>
-              </div>
-              <div
-                className={
-                  "w-full p-2 px-3 min-h-20 rounded-xl ring-2 ring-neutral-700 bg-white"
-                }
-              >
-                <div className={"text-lg"}>1차 킥오프 미팅</div>
-              </div>
+              {meets.map((data, i) => (
+                <div
+                  key={i}
+                  className={
+                    "w-full p-2 px-3 min-h-20 rounded-xl ring-2 ring-neutral-700 bg-white"
+                  }
+                >
+                  <div className={"text-lg"}>{data.meets.title}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

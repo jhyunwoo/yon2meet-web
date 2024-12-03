@@ -1,5 +1,7 @@
 import db from "@/db";
-import { meets } from "@/db/schema";
+import { meets, meetsToUsers } from "@/db/schema";
+import { NextResponse } from "next/server";
+import { auth } from "@/auth";
 
 export async function POST(request: Request) {
   const res = (await request.json()) as {
@@ -8,7 +10,6 @@ export async function POST(request: Request) {
     endDate: string;
   };
 
-  console.log(res);
   const createMeet = await db
     .insert(meets)
     .values({
@@ -17,5 +18,13 @@ export async function POST(request: Request) {
       endDate: res.endDate,
     })
     .returning({ id: meets.id });
-  return Response.json({ id: createMeet[0].id });
+
+  const session = await auth();
+  if (session?.user?.id) {
+    await db
+      .insert(meetsToUsers)
+      .values({ userId: session.user.id, meetId: createMeet[0].id });
+  }
+
+  return NextResponse.json({ id: createMeet[0].id });
 }

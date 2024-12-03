@@ -1,25 +1,41 @@
-"use client";
-
-import { useState, TouchEvent } from "react";
 import toKoDay from "@/lib/to-ko-day";
-import { useSelectedDate } from "@/lib/stores/selected-date";
 import timeGenerator from "@/lib/time-generator";
 import { getWeekCalendarDateList } from "@/lib/get-week-calendar-date-list";
+import db from "@/db";
+import { meets } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
-interface TimeType {
+export interface TimeType {
   time: Date;
   isAvailable: boolean;
 }
 
-export default function WeekCalendar({
+export default async function UntouchableWeekCalendar({
   startDate,
   endDate,
+  meetId,
 }: {
   startDate: Date;
   endDate: Date;
+  meetId: string;
 }) {
-  const { absolutelyNot, handleDateChange } = useSelectedDate((state) => state);
-  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const meetData = (
+    await db
+      .select({ absolutelyNot: meets.absolutelyNot })
+      .from(meets)
+      .where(eq(meets.id, meetId))
+  )[0];
+
+  const absolutelyNot: string[] = [];
+  if (meetData.absolutelyNot) {
+    for (const userSchedule of meetData?.absolutelyNot) {
+      for (const schedule of userSchedule.schedules) {
+        if (!absolutelyNot.includes(schedule)) {
+          absolutelyNot.push(schedule);
+        }
+      }
+    }
+  }
 
   const dateArray: TimeType[] = getWeekCalendarDateList(startDate, endDate);
 
@@ -76,35 +92,7 @@ export default function WeekCalendar({
                 <div
                   key={j}
                   data-time={timeData}
-                  className={`noselect h-full text-[10px] flex items-start justify-end border-[1px] ${absolutelyNot.includes(timeData) ? "bg-emerald-700 text-white border-emerald-800" : "border-neutral-300"}`}
-                  onMouseDown={() => {
-                    setIsDragging(true);
-                    handleDateChange(timeData);
-                  }}
-                  onMouseUp={() => setIsDragging(false)}
-                  onMouseEnter={() => {
-                    if (isDragging) {
-                      handleDateChange(timeData);
-                    }
-                  }}
-                  onTouchStart={() => {
-                    setIsDragging(true);
-                    handleDateChange(timeData);
-                  }}
-                  onTouchEnd={() => setIsDragging(false)}
-                  onTouchMove={(e: TouchEvent<HTMLDivElement>) => {
-                    if (!isDragging) return;
-
-                    const touch = e.touches[0];
-                    const element = document.elementFromPoint(
-                      touch.clientX,
-                      touch.clientY,
-                    ) as HTMLElement | null;
-
-                    if (element && element.dataset.time) {
-                      handleDateChange(element.dataset.time);
-                    }
-                  }}
+                  className={`noselect h-full text-[10px] flex items-start justify-end border-[1px] ${absolutelyNot?.includes(timeData) ? "bg-emerald-700 text-white border-emerald-800" : "border-neutral-300"}`}
                 >
                   <p>
                     {time.hour}:{time.minutes}

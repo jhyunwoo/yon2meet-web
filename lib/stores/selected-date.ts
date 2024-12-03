@@ -2,28 +2,43 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
 interface SelectedDateState {
-  date: string[];
+  absolutelyNot: string[];
+  adjustable: string[];
 }
 
 interface SelectedDateAction {
   addDate: (date: string) => void;
   removeDate: (date: string) => void;
   handleDateChange: (date: string) => void;
+  setDate: (absolutelyNot: string[], adjustable: string[]) => void;
 }
 
 export const useSelectedDate = create(
   devtools<SelectedDateState & SelectedDateAction>((set) => ({
-    date: [],
-    addDate: (date) => set((state) => ({ date: [...state.date, date] })),
+    absolutelyNot: [],
+    adjustable: [],
+    addDate: (date) =>
+      set((state) => ({ absolutelyNot: [...state.absolutelyNot, date] })),
     removeDate: (date) =>
-      set((state) => ({ date: [...state.date.filter((d) => d !== date)] })),
+      set((state) => ({
+        absolutelyNot: [...state.absolutelyNot.filter((d) => d !== date)],
+      })),
     handleDateChange: (date: string) =>
       set((state) => {
-        if (state.date.includes(date)) {
-          return { date: [...state.date.filter((d) => d !== date)] };
+        if (state.absolutelyNot.includes(date)) {
+          return {
+            absolutelyNot: [...state.absolutelyNot.filter((d) => d !== date)],
+            adjustable: [...state.adjustable, date],
+          };
+        } else if (state.adjustable.includes(date)) {
+          return {
+            adjustable: [...state.absolutelyNot.filter((d) => d !== date)],
+          };
         } else {
-          return { date: [...state.date, date] };
+          return { absolutelyNot: [...state.absolutelyNot, date] };
         }
       }),
+    setDate: (absolutelyNot: string[], adjustable: string[]) =>
+      set(() => ({ absolutelyNot: absolutelyNot, adjustable: adjustable })),
   })),
 );

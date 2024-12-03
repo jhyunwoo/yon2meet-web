@@ -89,17 +89,19 @@ export const authenticators = pgTable(
   }),
 );
 
+export interface ScheduleType {
+  userName: string;
+  userId: string;
+  schedules: string[];
+}
+
 export const meets = pgTable("meets", {
   id: uuid("id").primaryKey().defaultRandom(),
   title: text("title").notNull(),
   startDate: date("startDate").notNull(),
   endDate: date("endDate").notNull(),
-  absolutelyNot: jsonb("absolutelyNot")
-    .$type<{ userName: string; userId: string; schedules: string[] }[]>()
-    .default([]),
-  adjustable: jsonb("adjustable")
-    .$type<{ userName: string; userId: string; schedules: string[] }[]>()
-    .default([]),
+  absolutelyNot: jsonb("absolutelyNot").$type<ScheduleType[]>().default([]),
+  adjustable: jsonb("adjustable").$type<ScheduleType[]>().default([]),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({

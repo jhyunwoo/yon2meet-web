@@ -13,7 +13,7 @@ export default function CreateMeetButton() {
       return;
     }
     console.log(process.env.API_URL);
-    const requestCreateMeet = await fetch(`/api/meet`, {
+    const requestCreateMeet = await fetch(`/api/meets`, {
       method: "POST",
       body: JSON.stringify({
         title: title,
