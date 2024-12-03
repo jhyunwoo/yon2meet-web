@@ -6,12 +6,21 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:push": "drizzle-kit generate && drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.7.4",
     "@heroicons/react": "^2.2.0",
     "date-fns": "^4.1.0",
+    "dotenv": "^16.4.6",
+    "drizzle-orm": "^0.36.4",
     "next": "15.0.3",
+    "next-auth": "^5.0.0-beta.25",
+    "postgres": "^3.4.5",
     "react": "19.0.0-rc-69d4b800-20241021",
     "react-dom": "19.0.0-rc-69d4b800-20241021",
     "zustand": "^5.0.1"
@@ -19,8 +28,10 @@
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/node": "^22.10.1",
+    "@types/pg": "^8",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "drizzle-kit": "^0.28.1",
     "eslint": "^9.14.0",
     "eslint-config-next": "15.0.3",
     "postcss": "^8.4.49",

@@ -12,8 +12,8 @@ export default function HomePage() {
         }
       >
         <CalendarList
-          start={{ year: 2024, month: 11 }}
-          end={{ year: 2025, month: 10 }}
+          start={{ year: 2024, month: 12 }}
+          end={{ year: 2025, month: 11 }}
         />
       </div>
       <CreateMeetButton />

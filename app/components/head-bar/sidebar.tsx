@@ -5,15 +5,17 @@ import { ChevronUpIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import KakaoLoginButton from "@/app/components/auth/kakao-login-button";
 import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/solid";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Sidebar() {
   const { isOpen, close } = useSidebar((state) => state);
-  const auth = false;
+  const { data: session } = useSession();
+
   return (
     <div
       className={`fixed top-0 z-10 p-4 left-0 w-screen bottom-0 bg-neutral-100 h-screen ${!isOpen ? "-translate-y-full" : "translate-y-0"} transition-all`}
     >
-      {auth ? (
+      {session ? (
         <div className={"flex flex-col h-full w-full"}>
           <Link
             href={"/"}
@@ -30,10 +32,11 @@ export default function Sidebar() {
             <div className={"flex items-center justify-between"}>
               <div className={"flex items-center gap-1"}>
                 <ChatBubbleOvalLeftIcon className={"size-4 text-yellow-400"} />
-                <div>jhyunwoo0228@gmail.com</div>
+                <div>{session.user?.name}</div>
               </div>
               <button
                 type={"button"}
+                onClick={() => signOut()}
                 className={"text-sm text-neutral-600 underline"}
               >
                 로그아웃

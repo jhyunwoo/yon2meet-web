@@ -13,20 +13,14 @@ export default function CreateMeetButton() {
       return;
     }
     console.log(process.env.API_URL);
-    const requestCreateMeet = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/schedules`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          name: title,
-          startDate: `${start.getFullYear()}-${start.getMonth() + 1}-${start.getDate()}`,
-          endDate: `${end.getFullYear()}-${end.getMonth() + 1}-${end.getDate()}`,
-          startTime: "14:31:15",
-          endTimeExclusive: "14:31:15",
-          numMaxMembers: 0,
-        }),
-      },
-    );
+    const requestCreateMeet = await fetch(`/api/meet`, {
+      method: "POST",
+      body: JSON.stringify({
+        title: title,
+        startDate: `${start.getFullYear()}-${start.getMonth() + 1}-${start.getDate()}`,
+        endDate: `${end.getFullYear()}-${end.getMonth() + 1}-${end.getDate()}`,
+      }),
+    });
 
     const result = await requestCreateMeet.json();
     console.log(result);

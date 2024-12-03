@@ -3,6 +3,7 @@ import "./globals.css";
 import { ReactNode } from "react";
 import Index from "@/app/components/head-bar";
 import Sidebar from "@/app/components/head-bar/sidebar";
+import AuthProvider from "@/app/components/auth-provider";
 
 export const metadata: Metadata = {
   title: "연투밋",
@@ -17,9 +18,11 @@ export default function RootLayout({
   return (
     <html lang="ko" className={"bg-neutral-50 w-screen overflow-y-hidden"}>
       <body>
-        <Index />
-        <Sidebar />
-        {children}
+        <AuthProvider>
+          <Index />
+          <Sidebar />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

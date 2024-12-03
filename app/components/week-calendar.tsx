@@ -1,8 +1,9 @@
 "use client";
 
 import { addDays, differenceInDays } from "date-fns";
-import { useState } from "react";
+import { useState, TouchEvent } from "react";
 import toKoDay from "@/lib/to-ko-day";
+import { useSelectedDate } from "@/lib/stores/selected-date";
 
 function timeGenerator(startHour: number, endHour: number) {
   const gap = endHour - startHour;
@@ -36,8 +37,11 @@ export default function WeekCalendar({
   startDate: Date;
   endDate: Date;
 }) {
+  const { date, handleDateChange } = useSelectedDate((state) => state);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+
   const dateArray: TimeType[] = [];
-  const gapBetweenDay = differenceInDays(endDate, startDate);
+  const gapBetweenDay = differenceInDays(endDate, startDate) + 1;
 
   if (startDate.getDay() !== 0) {
     for (let i = 0; i < startDate.getDay(); i += 1) {
@@ -52,15 +56,12 @@ export default function WeekCalendar({
   for (let i = 0; i < gapBetweenDay; i += 1) {
     dateArray.push({ time: addDays(startDate, i), isAvailable: true });
   }
-
-  const [selected, setSelected] = useState<string[]>([]);
-  const [isDragging, setIsDragging] = useState<boolean>(false);
-
-  function handleDragging(data: string) {
-    if (selected.includes(data)) {
-      setSelected([...selected.filter((d) => d !== data)]);
-    } else {
-      setSelected([...selected, data]);
+  if (endDate.getDay() !== 6) {
+    for (let i = 0; i < 6 - endDate.getDay(); i += 1) {
+      dateArray.push({
+        time: addDays(endDate, i + 1),
+        isAvailable: false,
+      });
     }
   }
 
@@ -116,25 +117,34 @@ export default function WeekCalendar({
               return (
                 <div
                   key={j}
-                  className={`noselect h-full text-[10px] flex items-start justify-end border-[1px] ${selected.includes(timeData) ? "bg-emerald-700 text-white border-emerald-800" : "border-neutral-300"}`}
+                  data-time={timeData}
+                  className={`noselect h-full text-[10px] flex items-start justify-end border-[1px] ${date.includes(timeData) ? "bg-emerald-700 text-white border-emerald-800" : "border-neutral-300"}`}
                   onMouseDown={() => {
                     setIsDragging(true);
-                    handleDragging(timeData);
+                    handleDateChange(timeData);
                   }}
                   onMouseUp={() => setIsDragging(false)}
                   onMouseEnter={() => {
                     if (isDragging) {
-                      handleDragging(timeData);
+                      handleDateChange(timeData);
                     }
                   }}
                   onTouchStart={() => {
                     setIsDragging(true);
-                    handleDragging(timeData);
+                    handleDateChange(timeData);
                   }}
                   onTouchEnd={() => setIsDragging(false)}
-                  onTouchMove={() => {
-                    if (isDragging) {
-                      handleDragging(timeData);
+                  onTouchMove={(e: TouchEvent<HTMLDivElement>) => {
+                    if (!isDragging) return;
+
+                    const touch = e.touches[0];
+                    const element = document.elementFromPoint(
+                      touch.clientX,
+                      touch.clientY,
+                    ) as HTMLElement | null;
+
+                    if (element && element.dataset.time) {
+                      handleDateChange(element.dataset.time);
                     }
                   }}
                 >
