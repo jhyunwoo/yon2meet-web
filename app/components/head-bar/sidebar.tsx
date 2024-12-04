@@ -39,7 +39,7 @@ export default function Sidebar() {
       className={`fixed top-0 z-10 p-4 left-0 w-screen bottom-0 bg-neutral-100 h-screen ${!isOpen ? "-translate-y-full" : "translate-y-0"} transition-all`}
     >
       {session ? (
-        <div className={"flex flex-col h-full w-full"}>
+        <div className={"flex flex-col h-full w-full justify-between"}>
           <Link
             href={"/"}
             onClick={close}
@@ -74,18 +74,20 @@ export default function Sidebar() {
               시간표 등록하기
             </Link>
           </div>
-          <div className={"flex flex-col pt-14"}>
-            <div className={"text-lg font-semibold"}>약속 목록</div>
-            <div className={"flex flex-col gap-2"}>
+          <div className={"flex flex-col h-full  justify-end"}>
+            <div className={"text-lg font-semibold px-2"}>약속 목록</div>
+            <div className={"flex flex-col gap-2 overflow-auto p-2 h-[70vh]"}>
               {meets.map((data, i) => (
-                <div
+                <Link
+                  href={`/meet/${data.meets.id}`}
                   key={i}
                   className={
                     "w-full p-2 px-3 min-h-20 rounded-xl ring-2 ring-neutral-700 bg-white"
                   }
+                  onClick={close}
                 >
                   <div className={"text-lg"}>{data.meets.title}</div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

@@ -15,6 +15,5 @@ export async function GET() {
     .innerJoin(meets, eq(meets.id, meetsToUsers.meetId))
     .where(eq(meetsToUsers.userId, session.user.id));
 
-  console.log(userMeets);
   return NextResponse.json(userMeets);
 }
