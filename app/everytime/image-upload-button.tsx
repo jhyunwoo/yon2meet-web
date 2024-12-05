@@ -11,7 +11,7 @@ interface TimetableType {
   y: number;
 }
 
-export interface ScheduleType {
+export interface DefaultScheduleType {
   day: number;
   date: number;
   hour: number;
@@ -19,7 +19,7 @@ export interface ScheduleType {
 }
 
 function scheduleFormatter(schedules: TimetableType[]) {
-  const data: ScheduleType[] = [];
+  const data: DefaultScheduleType[] = [];
   for (const schedule of schedules) {
     const scheduleData = {
       day: 0,

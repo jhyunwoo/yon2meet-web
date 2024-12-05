@@ -12,6 +12,7 @@ import {
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 import { relations } from "drizzle-orm";
+import { DefaultScheduleType } from "@/app/everytime/image-upload-button";
 
 export const users = pgTable("user", {
   id: text("id")
@@ -22,7 +23,7 @@ export const users = pgTable("user", {
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   defaultSchedule: jsonb("absolutelyNot")
-    .$type<ScheduleType[]>()
+    .$type<DefaultScheduleType[]>()
     .default([])
     .notNull(),
 });

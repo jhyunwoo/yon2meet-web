@@ -1,7 +1,21 @@
 "use client";
 
+import { useDefault } from "@/lib/stores/default-schedule";
+import { useRouter } from "next/navigation";
+
 export default function UpdateScheduleButton() {
-  async function handleUpdate() {}
+  const { absolutelyNot } = useDefault((state) => state);
+  const router = useRouter();
+
+  async function handleUpdate() {
+    const requestUpdate = await fetch("/api/user/default-schedule", {
+      method: "PUT",
+      body: JSON.stringify({ schedule: absolutelyNot }),
+    });
+    const result = await requestUpdate.json();
+    console.log(result);
+    router.push("/everytime/my-schedule");
+  }
 
   return (
     <button

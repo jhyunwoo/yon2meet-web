@@ -5,16 +5,17 @@ import { getWeekCalendarDateList } from "@/lib/get-week-calendar-date-list";
 import toKoDay from "@/lib/to-ko-day";
 import timeGenerator from "@/lib/time-generator";
 import useDefaultSchedule from "@/lib/hooks/use-default-schedule";
-import { ScheduleType } from "@/app/everytime/image-upload-button";
 import { addDays } from "date-fns";
+import { useDefault } from "@/lib/stores/default-schedule";
+import { DefaultScheduleType } from "@/app/everytime/image-upload-button";
 
 interface TimeType {
   time: Date;
   isAvailable: boolean;
 }
 
-function defaultScheduleFormatter(
-  defaultSchedule: ScheduleType[],
+export function defaultScheduleFormatter(
+  defaultSchedule: DefaultScheduleType[],
   startDate: Date,
 ) {
   const data = [];
@@ -50,27 +51,16 @@ export default function WeekCalendar({
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const { defaultScheduleData } = useDefaultSchedule();
 
-  const [defaultScheduleDate, setDefaultScheduleDate] = useState<string[]>([]);
-
+  const { absolutelyNot, setDate, handleDateChange } = useDefault(
+    (state) => state,
+  );
   useEffect(() => {
     if (defaultScheduleData) {
-      setDefaultScheduleDate(
-        defaultScheduleFormatter(defaultScheduleData, startDate),
-      );
+      setDate(defaultScheduleFormatter(defaultScheduleData, startDate));
     }
-  }, [defaultScheduleData, startDate]);
+  }, [defaultScheduleData, setDate, startDate]);
 
   const dateArray: TimeType[] = getWeekCalendarDateList(startDate, endDate);
-
-  function handleDateChange(date: string) {
-    if (defaultScheduleDate.includes(date)) {
-      setDefaultScheduleDate(
-        defaultScheduleDate.filter((data) => data !== date),
-      );
-    } else {
-      setDefaultScheduleDate([...defaultScheduleDate, date]);
-    }
-  }
 
   return (
     <div
@@ -125,7 +115,7 @@ export default function WeekCalendar({
                 <div
                   key={j}
                   data-time={timeData}
-                  className={`noselect h-full text-[10px] flex items-start justify-end border-[1px] ${defaultScheduleDate.includes(timeData) ? "bg-emerald-700 text-white border-emerald-800" : "border-neutral-300"}`}
+                  className={`noselect h-full text-[10px] flex items-start justify-end border-[1px] ${absolutelyNot.includes(timeData) ? "bg-emerald-700 text-white border-emerald-800" : "border-neutral-300"}`}
                   onMouseDown={() => {
                     setIsDragging(true);
                     handleDateChange(timeData);
