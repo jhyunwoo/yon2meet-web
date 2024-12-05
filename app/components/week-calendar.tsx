@@ -3,8 +3,8 @@
 import { useState, TouchEvent } from "react";
 import toKoDay from "../../lib/to-ko-day";
 import timeGenerator from "../../lib/time-generator";
-import {useSelectedDate} from "@/lib/stores/selected-date";
-import {getWeekCalendarDateList} from "@/lib/get-week-calendar-date-list";
+import { useSelectedDate } from "@/lib/stores/selected-date";
+import { getWeekCalendarDateList } from "@/lib/get-week-calendar-date-list";
 
 interface TimeType {
   time: Date;
@@ -18,7 +18,9 @@ export default function WeekCalendar({
   startDate: Date;
   endDate: Date;
 }) {
-  const { absolutelyNot, handleDateChange } = useSelectedDate((state) => state);
+  const { absolutelyNot, handleDateChange, adjustable } = useSelectedDate(
+    (state) => state,
+  );
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const dateArray: TimeType[] = getWeekCalendarDateList(startDate, endDate);
@@ -76,7 +78,7 @@ export default function WeekCalendar({
                 <div
                   key={j}
                   data-time={timeData}
-                  className={`noselect h-full text-[10px] flex items-start justify-end border-[1px] ${absolutelyNot.includes(timeData) ? "bg-emerald-700 text-white border-emerald-800" : "border-neutral-300"}`}
+                  className={`noselect h-full text-[10px] flex items-start justify-end border-[1px] ${absolutelyNot.includes(timeData) ? "bg-emerald-700 text-white border-emerald-800" : "border-neutral-300"} ${adjustable.includes(timeData) ? "bg-sky-700 text-white border-sky-800" : ""}`}
                   onMouseDown={() => {
                     setIsDragging(true);
                     handleDateChange(timeData);

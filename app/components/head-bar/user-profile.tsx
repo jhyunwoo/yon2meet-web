@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/solid";
-import { signIn, signOut, useSession } from "next-auth/react";
-import useMeets from "@/lib/stores/hooks/use-meets";
+import { signOut, useSession } from "next-auth/react";
+import useMeets from "@/lib/hooks/use-meets";
 import { useSidebar } from "@/lib/stores/sidebar";
 
 export default function UserProfile() {

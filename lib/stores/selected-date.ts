@@ -32,7 +32,7 @@ export const useSelectedDate = create(
           };
         } else if (state.adjustable.includes(date)) {
           return {
-            adjustable: [...state.absolutelyNot.filter((d) => d !== date)],
+            adjustable: [...state.adjustable.filter((d) => d !== date)],
           };
         } else {
           return { absolutelyNot: [...state.absolutelyNot, date] };
