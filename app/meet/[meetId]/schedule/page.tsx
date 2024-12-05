@@ -1,12 +1,13 @@
-import DefaultLayout from "../../../components/default-layout";
-import WeekCalendar from "../../../components/week-calendar";
-import db from "../../../../db";
 import { eq } from "drizzle-orm";
 import SubmitButton from "./submit-button";
 import SetSchedule from "./set-schedule";
 import splitToWeeks from "../../../../lib/split-to-weeks";
-import {meets} from "@/db/schema";
-import {auth} from "@/auth";
+import { meets } from "@/db/schema";
+import { auth } from "@/auth";
+import db from "@/db";
+import React from "react";
+import DefaultLayout from "@/app/components/default-layout";
+import WeekCalendar from "@/app/components/week-calendar";
 
 export default async function SchedulePage({
   params,

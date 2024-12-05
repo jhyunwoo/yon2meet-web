@@ -1,15 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/solid";
+import {
+  ChatBubbleOvalLeftIcon,
+  SparklesIcon,
+} from "@heroicons/react/24/solid";
 import { signOut, useSession } from "next-auth/react";
 import useMeets from "@/lib/hooks/use-meets";
 import { useSidebar } from "@/lib/stores/sidebar";
+import { useLoading } from "@/lib/stores/loading";
+import { useEffect } from "react";
 
 export default function UserProfile() {
   const { data: session } = useSession();
-  const { meetsData } = useMeets(1, 5);
+  const { meetsData, meetsIsLoading } = useMeets(1, 5);
   const { close } = useSidebar((state) => state);
+  const { open, close: closeLoading } = useLoading((state) => state);
+
+  useEffect(() => {
+    if (meetsIsLoading) {
+      open();
+    } else {
+      closeLoading();
+    }
+  }, [close, closeLoading, meetsIsLoading, open]);
 
   return (
     <div className={"flex flex-col h-full w-full justify-between"}>
@@ -41,11 +55,12 @@ export default function UserProfile() {
         <Link
           href="/everytime"
           className={
-            "bg-emerald-500 w-full rounded-lg p-2 text-white text-center"
+            "bg-emerald-500 w-full rounded-lg p-2 text-white text-center flex gap-1 items-center justify-center"
           }
           onClick={close}
         >
-          에브리타임 시간표 등록하기
+          <SparklesIcon className={"size-5 text-yellow-400"} />
+          <p>에브리타임 시간표 등록하기</p>
         </Link>
       </div>
       <div className={"flex flex-col h-full  justify-end"}>

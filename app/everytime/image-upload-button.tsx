@@ -117,7 +117,7 @@ export default function ImageUploadButton() {
         onClick={handleClick}
         type={"button"}
         className={
-          "p-3 text-lg font-semibold rounded-lg bg-emerald-600 text-white"
+          "p-3 text-lg font-semibold w-full rounded-lg bg-emerald-600 text-white"
         }
       >
         사진 보관함에서 시간표 업로드

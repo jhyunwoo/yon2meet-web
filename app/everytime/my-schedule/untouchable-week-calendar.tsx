@@ -5,6 +5,8 @@ import toKoDay from "@/lib/to-ko-day";
 import timeGenerator from "@/lib/time-generator";
 import useDefaultSchedule from "@/lib/hooks/use-default-schedule";
 import { defaultScheduleFormatter } from "@/app/everytime/edit/week-calendar";
+import { useLoading } from "@/lib/stores/loading";
+import { useEffect } from "react";
 
 export interface TimeType {
   time: Date;
@@ -18,15 +20,23 @@ export default function UntouchableWeekCalendar({
   startDate: Date;
   endDate: Date;
 }) {
-  const adjustable: string[] = [];
-
   const dateArray: TimeType[] = getWeekCalendarDateList(startDate, endDate);
 
-  const { defaultScheduleData } = useDefaultSchedule();
+  const { defaultScheduleData, defaultScheduleIsLoading } =
+    useDefaultSchedule();
 
   const absolutelyNot: string[] = defaultScheduleData
     ? defaultScheduleFormatter(defaultScheduleData, startDate)
     : [];
+
+  const { open, close } = useLoading((state) => state);
+  useEffect(() => {
+    if (defaultScheduleIsLoading) {
+      open();
+    } else {
+      close();
+    }
+  }, [close, defaultScheduleIsLoading, open]);
 
   return (
     <div
@@ -81,7 +91,7 @@ export default function UntouchableWeekCalendar({
                 <div
                   key={j}
                   data-time={timeData}
-                  className={`noselect h-full text-[10px] flex items-start justify-end border-[1px] ${absolutelyNot?.includes(timeData) ? "bg-emerald-700 text-white border-emerald-800" : adjustable.includes(timeData) ? "bg-sky-700 text-white border-sky-800" : "border-neutral-200"} `}
+                  className={`noselect h-full text-[10px] flex items-start justify-end border-[1px] ${absolutelyNot?.includes(timeData) ? "bg-emerald-700 text-white border-emerald-800" : "border-neutral-200"} `}
                 >
                   <p>
                     {time.hour}:{time.minutes}

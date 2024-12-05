@@ -8,6 +8,7 @@ import useDefaultSchedule from "@/lib/hooks/use-default-schedule";
 import { addDays } from "date-fns";
 import { useDefault } from "@/lib/stores/default-schedule";
 import { DefaultScheduleType } from "@/app/everytime/image-upload-button";
+import { useLoading } from "@/lib/stores/loading";
 
 interface TimeType {
   time: Date;
@@ -49,18 +50,30 @@ export default function WeekCalendar({
   endDate: Date;
 }) {
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const { defaultScheduleData } = useDefaultSchedule();
+  const { defaultScheduleData, defaultScheduleIsLoading } =
+    useDefaultSchedule();
+
+  const { open, close } = useLoading((state) => state);
 
   const { absolutelyNot, setDate, handleDateChange } = useDefault(
     (state) => state,
   );
+
+  const dateArray: TimeType[] = getWeekCalendarDateList(startDate, endDate);
+
   useEffect(() => {
     if (defaultScheduleData) {
       setDate(defaultScheduleFormatter(defaultScheduleData, startDate));
     }
   }, [defaultScheduleData, setDate, startDate]);
 
-  const dateArray: TimeType[] = getWeekCalendarDateList(startDate, endDate);
+  useEffect(() => {
+    if (defaultScheduleIsLoading) {
+      open();
+    } else {
+      close();
+    }
+  }, [close, defaultScheduleIsLoading, open]);
 
   return (
     <div

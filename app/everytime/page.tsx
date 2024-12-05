@@ -1,6 +1,7 @@
 import DefaultLayout from "@/app/components/default-layout";
 import Image from "next/image";
 import ImageUploadButton from "@/app/everytime/image-upload-button";
+import Link from "next/link";
 
 export default function EveryTimePage() {
   return (
@@ -45,7 +46,15 @@ export default function EveryTimePage() {
             </div>
           </div>
         </div>
-        <ImageUploadButton />
+        <div className={"flex flex-col gap-1 items-center w-full"}>
+          <ImageUploadButton />
+          <Link
+            href={"/everytime/my-schedule"}
+            className={"text-sm underline text-neutral-700"}
+          >
+            현재 시간표 보기
+          </Link>
+        </div>
       </div>
     </DefaultLayout>
   );

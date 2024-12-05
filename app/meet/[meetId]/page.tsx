@@ -19,7 +19,6 @@ export default async function MeetPage({
   )[0];
   const weeks = splitToWeeks(meetData.startDate, meetData.endDate);
 
-  console.log(meetData);
   return (
     <DefaultLayout className={"flex flex-col p-4"}>
       <div className={"w-full py-4 flex items-center justify-between"}>

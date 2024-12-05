@@ -36,7 +36,6 @@ export default function TimeTable({
           className={`border-2 border-neutral-300 w-full flex items-start justify-end h-full ${selected.includes(index) ? "bg-red-500" : ""}`}
           onDragStart={() => handleDragTime(index)}
           onTouchStart={() => handleDragTime(index)}
-          onTouchMove={() => console.log(index)}
         >
           <p className={"text-xs text-neutral-600"}>
             {time.hour}:{time.minutes == 0 ? "00" : "30"}
