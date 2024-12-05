@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import HeadBar from "./components/head-bar";
 import Sidebar from "./components/head-bar/sidebar";
 import AuthProvider from "./components/auth-provider";
+import Loading from "@/app/components/loading";
 
 export const metadata: Metadata = {
   title: "연투밋",
@@ -22,6 +23,7 @@ export default function RootLayout({
           <HeadBar />
           <Sidebar />
           {children}
+          <Loading />
         </AuthProvider>
       </body>
     </html>

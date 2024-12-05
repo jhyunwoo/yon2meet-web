@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useLoading } from "@/lib/stores/loading";
 
 interface TimetableType {
   day: string;
@@ -64,12 +65,14 @@ function scheduleFormatter(schedules: TimetableType[]) {
 export default function ImageUploadButton() {
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const { open, close } = useLoading((state) => state);
 
   function handleClick() {
     inputRef.current?.click();
   }
 
   async function handleImageInput() {
+    open();
     if (!inputRef?.current?.files?.[0]) return alert("Please upload a file");
 
     const formData = new FormData();
@@ -98,6 +101,7 @@ export default function ImageUploadButton() {
     } catch (error) {
       console.error("Upload error:", error);
     }
+    close();
   }
 
   return (
