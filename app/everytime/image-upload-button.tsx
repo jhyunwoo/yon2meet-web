@@ -79,13 +79,10 @@ export default function ImageUploadButton() {
     formData.append("file", inputRef?.current?.files?.[0]); // key를 'file'로 설정
 
     try {
-      const response = await fetch(
-        "https://modal.yon2meet.moveto.kr:80/image",
-        {
-          body: formData,
-          method: "POST",
-        },
-      );
+      const response = await fetch("http:/43.203.114.201:8080/image", {
+        body: formData,
+        method: "POST",
+      });
       const result = (await response.json()) as {
         schedule: TimetableType[];
       };
