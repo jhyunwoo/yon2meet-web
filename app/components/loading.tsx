@@ -10,10 +10,10 @@ export default function Loading() {
       {isLoading ? (
         <div
           className={
-            "w-screen h-screen fixed top-0 left-0 flex items-center justify-center"
+            "w-screen h-screen fixed top-0 left-0 flex items-center justify-center bg-neutral-500/50"
           }
         >
-          <Cog6ToothIcon className={"size-12 animate-spin text-neutral-600"} />
+          <Cog6ToothIcon className={"size-16 animate-spin text-neutral-600"} />
         </div>
       ) : null}
     </>
