@@ -20,8 +20,8 @@ export default async function MeetPage({
   const weeks = splitToWeeks(meetData.startDate, meetData.endDate);
 
   return (
-    <DefaultLayout className={"flex flex-col p-4"}>
-      <div className={"w-full py-4 flex items-center justify-between"}>
+    <DefaultLayout className={"flex flex-col p-2 px-4"}>
+      <div className={"w-full flex items-center justify-between"}>
         <div>
           <div className={"text-sm"}>
             {meetData.absolutelyNot?.length}명 입력

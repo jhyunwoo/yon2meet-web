@@ -93,7 +93,9 @@ export default function WeekCalendar({
                     setIsDragging(true);
                     handleDateChange(timeData);
                   }}
-                  onTouchEnd={() => setIsDragging(false)}
+                  onTouchEnd={() => {
+                    setIsDragging(false);
+                  }}
                   onTouchMove={(e: TouchEvent<HTMLDivElement>) => {
                     if (!isDragging) return;
 

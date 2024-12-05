@@ -51,13 +51,13 @@ export default async function UntouchableWeekCalendar({
       }
     >
       <div className={"grid grid-cols-2 px-2"}>
-        <div>
+        <div className={"flex items-start gap-2"}>
           <div className={"text-sm"}>From</div>
           <div className={"text-xl font-semibold"}>
             {startDate.getMonth() + 1}월 {startDate.getDate()}
           </div>
         </div>
-        <div>
+        <div className={"flex items-start gap-2"}>
           <div className={"text-sm"}>To</div>
           <div className={"text-xl font-semibold"}>
             {endDate.getMonth() + 1}월 {endDate.getDate()}
@@ -84,7 +84,7 @@ export default async function UntouchableWeekCalendar({
                 return (
                   <div
                     key={j}
-                    className={`noselect h-full text-[10px] flex items-start justify-end border-[1px] bg-neutral-400 border-neutral-400`}
+                    className={`noselect h-full text-[8px] flex items-start justify-end border-[1px] bg-neutral-400 border-neutral-400`}
                   >
                     <p>
                       {time.hour}:{time.minutes}
