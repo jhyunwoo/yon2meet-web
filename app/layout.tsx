@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ReactNode } from "react";
-import Index from "./components/head-bar";
+import HeadBar from "./components/head-bar";
 import Sidebar from "./components/head-bar/sidebar";
 import AuthProvider from "./components/auth-provider";
 
@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="ko" className={"bg-neutral-50 w-screen overflow-y-hidden"}>
       <body>
         <AuthProvider>
-          <Index />
+          <HeadBar />
           <Sidebar />
           {children}
         </AuthProvider>

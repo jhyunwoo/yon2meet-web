@@ -2,8 +2,8 @@ import toKoDay from "../../lib/to-ko-day";
 import timeGenerator from "../../lib/time-generator";
 import db from "../../db";
 import { eq } from "drizzle-orm";
-import {meets} from "@/db/schema";
-import {getWeekCalendarDateList} from "@/lib/get-week-calendar-date-list";
+import { meets } from "@/db/schema";
+import { getWeekCalendarDateList } from "@/lib/get-week-calendar-date-list";
 
 export interface TimeType {
   time: Date;
@@ -21,7 +21,10 @@ export default async function UntouchableWeekCalendar({
 }) {
   const meetData = (
     await db
-      .select({ absolutelyNot: meets.absolutelyNot })
+      .select({
+        absolutelyNot: meets.absolutelyNot,
+        adjustable: meets.adjustable,
+      })
       .from(meets)
       .where(eq(meets.id, meetId))
   )[0];

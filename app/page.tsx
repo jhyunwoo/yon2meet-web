@@ -1,14 +1,15 @@
 import ScheduleNameInput from "./components/schedule-name-input";
 import CalendarList from "./components/calendar-list";
 import CreateMeetButton from "./components/create-meet-button";
+import DefaultLayout from "@/app/components/default-layout";
 
 export default function HomePage() {
   return (
-    <div className={"w-full h-screen flex flex-col pt-14 p-4 gap-2"}>
+    <DefaultLayout className={'flex flex-col p-4 gap-2 max-w-md items-center justify-center mx-auto'}>
       <ScheduleNameInput />
       <div
         className={
-          "overflow-x-auto ring-2 ring-neutral-400 rounded-xl w-full h-full max-w-sm"
+          "overflow-y-auto ring-2 ring-neutral-300 rounded-xl w-full h-full max-w-sm"
         }
       >
         <CalendarList
@@ -17,6 +18,6 @@ export default function HomePage() {
         />
       </div>
       <CreateMeetButton />
-    </div>
+    </DefaultLayout>
   );
 }

@@ -22,6 +22,20 @@
       "when": 1733200095042,
       "tag": "0002_clammy_shinko_yamashiro",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1733364417407,
+      "tag": "0003_dark_warhawk",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1733377826578,
+      "tag": "0004_lush_network",
+      "breakpoints": true
     }
   ]
 }

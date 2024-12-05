@@ -8,6 +8,7 @@ import {
   uuid,
   date,
   jsonb,
+  time,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 import { relations } from "drizzle-orm";
@@ -20,6 +21,10 @@ export const users = pgTable("user", {
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  defaultSchedule: jsonb("absolutelyNot")
+    .$type<ScheduleType[]>()
+    .default([])
+    .notNull(),
 });
 
 export const accounts = pgTable(
@@ -100,8 +105,12 @@ export const meets = pgTable("meets", {
   title: text("title").notNull(),
   startDate: date("startDate").notNull(),
   endDate: date("endDate").notNull(),
-  absolutelyNot: jsonb("absolutelyNot").$type<ScheduleType[]>().default([]),
-  adjustable: jsonb("adjustable").$type<ScheduleType[]>().default([]),
+  absolutelyNot: jsonb("absolutelyNot")
+    .$type<ScheduleType[]>()
+    .default([])
+    .notNull(),
+  adjustable: jsonb("adjustable").$type<ScheduleType[]>().default([]).notNull(),
+  createdAt: time("createdAt").notNull().defaultNow(),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({

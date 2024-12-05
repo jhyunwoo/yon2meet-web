@@ -40,10 +40,10 @@ export default function CalendarList({
   }
 
   return (
-    <div className={"w-full"}>
+    <>
       {monthList.map((date, index) => (
         <Calendar year={date.year} month={date.month} key={index} />
       ))}
-    </div>
+    </>
   );
 }

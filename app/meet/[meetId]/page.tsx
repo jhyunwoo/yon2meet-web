@@ -1,11 +1,12 @@
-import DefaultLayout from "../../components/default-layout";
-import LogInOrAddScheduleButton from "./log-in-or-add-schedule-button";
-import CopyLinkButton from "./copy-link-button";
-import db from "../../../db";
+import db from "@/db";
 import { eq } from "drizzle-orm";
-import splitToWeeks from "../../../lib/split-to-weeks";
-import UntouchableWeekCalendar from "../../components/untouchable-week-calendar";
-import {meets} from "@/db/schema";
+import { meets } from "@/db/schema";
+import splitToWeeks from "@/lib/split-to-weeks";
+import React from "react";
+import DefaultLayout from "@/app/components/default-layout";
+import CopyLinkButton from "@/app/meet/[meetId]/copy-link-button";
+import UntouchableWeekCalendar from "@/app/components/untouchable-week-calendar";
+import LogInOrAddScheduleButton from "@/app/meet/[meetId]/log-in-or-add-schedule-button";
 
 export default async function MeetPage({
   params,
@@ -18,6 +19,7 @@ export default async function MeetPage({
   )[0];
   const weeks = splitToWeeks(meetData.startDate, meetData.endDate);
 
+  console.log(meetData);
   return (
     <DefaultLayout className={"flex flex-col p-4"}>
       <div className={"w-full py-4 flex items-center justify-between"}>
