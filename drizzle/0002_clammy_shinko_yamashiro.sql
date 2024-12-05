@@ -1,0 +1,1 @@
+ALTER TABLE "meets" ADD COLUMN "title" text NOT NULL;
