@@ -1,7 +1,10 @@
 import KakaoLoginButton from "@/app/components/auth/kakao-login-button";
 import Link from "next/link";
+import { useSidebar } from "@/lib/stores/sidebar";
 
 export default function SingIn() {
+  const { close } = useSidebar((state) => state);
+
   return (
     <div className={"flex flex-col h-full w-full"}>
       <Link
