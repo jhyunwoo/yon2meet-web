@@ -80,7 +80,7 @@ export default function ImageUploadButton() {
 
     try {
       const response = await fetch(
-        "https://modal.yon2meet.moveto.kr:80//image",
+        "https://modal.yon2meet.moveto.kr:80/image",
         {
           body: formData,
           method: "POST",
