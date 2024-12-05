@@ -10,8 +10,6 @@ export default function ImageUploadButton() {
   }
 
   async function handleImageInput() {
-    console.log(inputRef.current?.value);
-
     if (!inputRef?.current?.files?.[0]) return alert("Please upload a file");
 
     const formData = new FormData();

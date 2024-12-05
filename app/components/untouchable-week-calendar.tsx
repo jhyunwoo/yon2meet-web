@@ -30,13 +30,15 @@ export default async function UntouchableWeekCalendar({
   )[0];
 
   const absolutelyNot: string[] = [];
-  if (meetData.absolutelyNot) {
-    for (const userSchedule of meetData?.absolutelyNot) {
-      for (const schedule of userSchedule.schedules) {
-        if (!absolutelyNot.includes(schedule)) {
-          absolutelyNot.push(schedule);
-        }
-      }
+  for (const userSchedule of meetData.absolutelyNot) {
+    for (const schedule of userSchedule.schedules) {
+      absolutelyNot.push(schedule);
+    }
+  }
+  const adjustable: string[] = [];
+  for (const userSchedule of meetData.adjustable) {
+    for (const schedule of userSchedule.schedules) {
+      adjustable.push(schedule);
     }
   }
 
@@ -95,7 +97,7 @@ export default async function UntouchableWeekCalendar({
                 <div
                   key={j}
                   data-time={timeData}
-                  className={`noselect h-full text-[10px] flex items-start justify-end border-[1px] ${absolutelyNot?.includes(timeData) ? "bg-emerald-700 text-white border-emerald-800" : "border-neutral-300"}`}
+                  className={`noselect h-full text-[10px] flex items-start justify-end border-[1px] ${absolutelyNot?.includes(timeData) ? "bg-emerald-700 text-white border-emerald-800" : adjustable.includes(timeData) ? "bg-sky-700 text-white border-sky-800" : "border-neutral-200"} `}
                 >
                   <p>
                     {time.hour}:{time.minutes}
